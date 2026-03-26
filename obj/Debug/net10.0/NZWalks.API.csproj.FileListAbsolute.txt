@@ -162,3 +162,4 @@ C:\Users\Manish.Kumar2\OneDrive - Insurity LLC\Desktop\Udemy Course\NZWalks\NZWa
 C:\Users\Manish.Kumar2\OneDrive - Insurity LLC\Desktop\Udemy Course\NZWalks\NZWalks.API\bin\Debug\net10.0\runtimes\win-x86\native\Microsoft.Data.SqlClient.SNI.dll
 C:\Users\Manish.Kumar2\OneDrive - Insurity LLC\Desktop\Udemy Course\NZWalks\NZWalks.API\bin\Debug\net10.0\AutoMapper.dll
 C:\Users\Manish.Kumar2\OneDrive - Insurity LLC\Desktop\Udemy Course\NZWalks\NZWalks.API\bin\Debug\net10.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
+C:\Users\Manish.Kumar2\OneDrive - Insurity LLC\Desktop\Udemy Course\NZWalks\NZWalks.API\obj\Debug\net10.0\NZWalks.API.sourcelink.json
