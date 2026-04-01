@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using NZWalks.API.CustomActionFilters;
 using NZWalks.API.Data;
 using NZWalks.API.Models.Domain;
 using NZWalks.API.Models.DTO;
@@ -63,25 +64,18 @@ namespace NZWalks.API.Controllers
         // POST http://localhost:portnumber/api/regions
 
         [HttpPost]
+        [ValidateModel]
+        // Now we are checking model before it even comes inside the method. 
         public async Task<IActionResult> Create([FromBody] AddRegionRequestDTO addRegionRequestDTO)
         {
-            if(ModelState.IsValid)
-            {
-                // Map or Convert DTO to Domain Model
-                var regionDomainModel = mapper.Map<Region>(addRegionRequestDTO);
+            // Map or Convert DTO to Domain Model
+            var regionDomainModel = mapper.Map<Region>(addRegionRequestDTO);
 
+            regionDomainModel = await regionRepository.CreateAsync(regionDomainModel);
 
-                regionDomainModel = await regionRepository.CreateAsync(regionDomainModel);
+            var regionDto = mapper.Map<RegionDto>(regionDomainModel);
 
-                var regionDto = mapper.Map<RegionDto>(regionDomainModel);
-
-                return CreatedAtAction(nameof(GetById), new { id = regionDto.Id }, regionDto);
-
-            }
-            else
-            {
-                return BadRequest(ModelState);
-            }
+            return CreatedAtAction(nameof(GetById), new { id = regionDto.Id }, regionDto);
 
         }
 
@@ -89,31 +83,24 @@ namespace NZWalks.API.Controllers
         // PUT: http://locahost:portnumber/api/regions/{id}
         [HttpPut]
         [Route("{Id:Guid}")]
+        [ValidateModel]
         public async Task<IActionResult> Update([FromRoute] Guid Id, [FromBody] UpdateRegionRequestDto updateRegionRequestDto)
         {
-            if(ModelState.IsValid)
-            {
-                var regionDomainModel = await regionRepository.GetByIdAsync(Id);
-
-                if (regionDomainModel == null)
-                {
-                    return NotFound();
-                }
-
-                regionDomainModel = await regionRepository.UpdateAsync(updateRegionRequestDto, regionDomainModel);
-
-
-                var regionDto = mapper.Map<RegionDto>(regionDomainModel);
-
-                return Ok(regionDto);
-
-            }
-
-            else
-            {
-                return BadRequest(ModelState);
-            }
             
+            var regionDomainModel = await regionRepository.GetByIdAsync(Id);
+
+            if (regionDomainModel == null)
+            {
+                return NotFound();
+            }
+
+            regionDomainModel = await regionRepository.UpdateAsync(updateRegionRequestDto, regionDomainModel);
+
+
+            var regionDto = mapper.Map<RegionDto>(regionDomainModel);
+
+            return Ok(regionDto);
+
         }
 
 
